@@ -11,8 +11,8 @@ app = Flask(__name__,
 server = Server("https://horizon-testnet.stellar.org")
 
 # Define Stellar keys
-Public_Key = "GCLFID6YRVLV6XHID4TWTOOYV2LEFBJBXEGSXL6V3L3DKDWA4NVU73WX"
-Secret_Key = "SBAPPZ5XCQ6KSFOCYQ3UEJSMMC76HM6IAF7N4OH5YK3M4HCIA7V4RLTX"
+Public_Key = ""
+Secret_Key = ""
 
 # In-memory campaigns storage
 campaigns = []
