@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ campaign.title }} - Egerton FundChain</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <header class="main-header">
+        <h1>Egerton FundChain</h1>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/campaigns">Browse Campaigns</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="campaign-details">
+            <h2>{{ campaign.title }}</h2>
+            <div class="campaign-info">
+                <p class="campaign-description">{{ campaign.description }}</p>
+                <div class="campaign-stats">
+                    <div class="stat-item">
+                        <h4>Target Amount</h4>
+                        <p>{{ campaign.target }} XLM</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4>Current Balance</h4>
+                        <p>{{ campaign.current_balance or '0.00' }} XLM</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contribution-section">
+                <h3>Make a Contribution</h3>
+                <form action="/contribute/{{ campaign.id }}" method="POST" class="contribution-form">
+                    <div class="form-group">
+                        <label for="secret_key">Your Secret Key</label>
+                        <input type="text" id="secret_key" name="secret_key" placeholder="Enter your secret key" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="amount">Amount (XLM)</label>
+                        <input type="number" id="amount" name="amount" placeholder="Enter amount (XLM)" required min="1">
+                    </div>
+                    <button type="submit" class="btn-primary">Contribute</button>
+                </form>
+            </div>
+
+            <div class="contributions-list">
+                <h3>Recent Contributions</h3>
+                {% if contributions %}
+                    {% for contribution in contributions %}
+                    <div class="contribution-item">
+                        <p class="contributor">From: {{ contribution.contributor }}</p>
+                        <p class="amount">{{ contribution.amount }} XLM</p>
+                        <p class="timestamp">{{ contribution.timestamp }}</p>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No contributions yet. Be the first to contribute!</p>
+                {% endif %}
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2024 Egerton FundChain. All rights reserved.</p>
+    </footer>
+</body>
+</html>

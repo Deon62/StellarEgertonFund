@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Egerton FundChain</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <header class="main-header">
+        <h1>Egerton FundChain</h1>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="/" class="{% if request.path == '/' %}active{% endif %}">Home</a></li>
+                <li><a href="/campaigns" class="{% if request.path == '/campaigns' %}active{% endif %}">Browse Campaigns</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="create-campaign">
+            <h2>Create a Campaign</h2>
+            <form action="/campaign" method="POST" class="campaign-form">
+                <div class="form-group">
+                    <label for="title">Campaign Title</label>
+                    <input type="text" id="title" name="title" placeholder="Campaign Title" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Campaign Description</label>
+                    <textarea id="description" name="description" placeholder="Campaign Description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="target">Target Amount (XLM)</label>
+                    <input type="number" id="target" name="target" placeholder="Target Amount (XLM)" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="wallet">Stellar Wallet Address</label>
+                    <input 
+                        type="text" 
+                        id="wallet" 
+                        name="wallet" 
+                        pattern="^G[A-Za-z0-9]{55}$" 
+                        title="Stellar wallet address must start with G and be 56 characters long" 
+                        placeholder="Stellar Wallet Address" 
+                        required
+                    >
+                </div>
+                <button type="submit" class="btn-primary">Create Campaign</button>
+            </form>
+        </section>
+
+        <section class="active-campaigns">
+            <h2>Active Campaigns</h2>
+            {% if campaigns %}
+            <div class="campaign-grid">
+                {% for campaign in campaigns %}
+                <div class="campaign-card">
+                    <h3>{{ campaign.title }}</h3>
+                    <p class="campaign-description">{{ campaign.description }}</p>
+                    <div class="campaign-meta">
+                        <p class="target">Target: {{ campaign.target }} XLM</p>
+                        <a href="/campaign/{{ loop.index0 }}" class="btn-secondary">View Campaign</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p>No active campaigns yet. Be the first to create one!</p>
+            {% endif %}
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2024 Egerton FundChain. All rights reserved.</p>
+    </footer>
+</body>
+</html>
